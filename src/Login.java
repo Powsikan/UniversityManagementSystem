@@ -1,4 +1,5 @@
 import repository.DatabaseRepository;
+import repository.Repository;
 
 import javax.swing.*;
 import java.awt.*;
@@ -125,8 +126,8 @@ public class Login extends JFrame implements ActionListener {
                 sp2.setText("");
             } else {
             try {
-                DatabaseRepository databaseRepository = new DatabaseRepository();
-                databaseRepository.userPost("insert into users values(?,?)", username, password);
+                Repository repository = new DatabaseRepository();
+                repository.userPost("insert into users values(?,?)", username, password);
             }catch (Exception e){
                 e.getMessage();
             }

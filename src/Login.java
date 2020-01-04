@@ -1,3 +1,5 @@
+import repository.DatabaseRepository;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -16,8 +18,6 @@ public class Login extends JFrame implements ActionListener {
     JTextField st1;
     JPasswordField sp1, sp2;
 
-
-    String username, pword, conpword;
 
     public Login() {
         super("University Management System");
@@ -99,6 +99,7 @@ public class Login extends JFrame implements ActionListener {
 
     }
 
+
     public static void main(String[] args) {
         Login uadd = new Login();
         uadd.setVisible(true);
@@ -107,15 +108,27 @@ public class Login extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
+        String username = st1.getText();
+        String password = sp1.getText();
+        String conpassword = sp2.getText();
         String src = actionEvent.getActionCommand();
         if (src.equalsIgnoreCase("LOGIN")) {
             MainWindow mainWindow = new MainWindow();
             mainWindow.setVisible(true);
             this.setVisible(false);
         } else if (src.equalsIgnoreCase("SIGN UP")) {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.setVisible(true);
-            this.setVisible(false);
+            if ((password != conpassword) || (username.equals(""))) {
+                JOptionPane.showMessageDialog(null, "error");
+                st1.setText("");
+                sp1.setText("");
+                sp2.setText("");
+            } else {
+                DatabaseRepository databaseRepository = new DatabaseRepository();
+                databaseRepository.userPost("insert into users values(?,?)", username , password);
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.setVisible(true);
+                this.setVisible(false);
+            }
         }
     }
 }

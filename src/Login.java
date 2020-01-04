@@ -111,6 +111,7 @@ public class Login extends JFrame implements ActionListener {
         String username = st1.getText();
         String password = sp1.getText();
         String conpassword = sp2.getText();
+
         String src = actionEvent.getActionCommand();
         if (src.equalsIgnoreCase("LOGIN")) {
             MainWindow mainWindow = new MainWindow();
@@ -123,8 +124,12 @@ public class Login extends JFrame implements ActionListener {
                 sp1.setText("");
                 sp2.setText("");
             } else {
+            try {
                 DatabaseRepository databaseRepository = new DatabaseRepository();
-                databaseRepository.userPost("insert into users values(?,?)", username , password);
+                databaseRepository.userPost("insert into users values(?,?)", username, password);
+            }catch (Exception e){
+                e.getMessage();
+            }
                 MainWindow mainWindow = new MainWindow();
                 mainWindow.setVisible(true);
                 this.setVisible(false);
